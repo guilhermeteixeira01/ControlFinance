@@ -3,6 +3,12 @@ const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const http = require('http');
 
+if (process.env.NODE_ENV === 'development') {
+  require('electron-reload')(__dirname, {
+    electron: require(`${__dirname}/node_modules/electron`)
+  });
+}
+
 let serverPort = 3131;
 let mainWindow = null;
 

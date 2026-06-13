@@ -84,6 +84,19 @@ h1 {
   margin-bottom: 4px;
 }
 
+h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+
+  & a {
+    color: var(--cyan);
+    text-decoration: none;
+  }
+}
+
 .subtitle {
   font-size: 13px;
   color: var(--text-dim);
