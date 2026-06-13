@@ -1,0 +1,48 @@
+{
+  "name": "controle-financeiro",
+  "version": "1.0.0",
+  "description": "App de controle financeiro pessoal",
+  "author": "guilh",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win portable",
+    "build:win-installer": "electron-builder --win nsis",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "com.seuname.controle-financeiro",
+    "productName": "Controle Financeiro",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "server.js",
+      "app.js",
+      "index.html",
+      "index.css",
+      "dados.json",
+      "icon.png"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "icon.png",
+      "sign": null,
+      "signingHashAlgorithms": null
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "icon.png"
+    }
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^24.0.0"
+  }
+}

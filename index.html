@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle Financeiro</title>
+<link rel="stylesheet" href="index.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Controle Financeiro</h1>
+  <p class="subtitle">Gerencie seus gastos e acompanhe seu saldo em tempo real</p>
+
+  <div class="orcamento-row">
+    <label>Orçamento mensal (R$)</label>
+    <input type="number" id="orc-input" value="1400" min="0" step="10" />
+    <button class="btn-save-orc" onclick="salvarOrcamento()">Salvar</button>
+  </div>
+
+  <div class="cards">
+    <div class="card orcamento">
+      <div class="card-label">Orçamento</div>
+      <div class="card-value" id="orc-display">R$ 1.400,00</div>
+      <div class="card-accent"></div>
+    </div>
+    <div class="card gastos">
+      <div class="card-label">Total gasto</div>
+      <div class="card-value" id="total-gasto">R$ 0,00</div>
+      <div class="card-accent"></div>
+    </div>
+    <div class="card saldo" id="saldo-card">
+      <div class="card-label">Saldo</div>
+      <div class="card-value" id="saldo">R$ 1.400,00</div>
+      <div class="card-accent"></div>
+    </div>
+  </div>
+
+  <div class="section-title">Adicionar gasto</div>
+  <div class="form-gasto">
+    <input type="text" id="nome-gasto" placeholder="Descrição" />
+    <select id="cat-gasto">
+      <option>Alimentação</option>
+      <option>Transporte</option>
+      <option>Moradia</option>
+      <option>Contas</option>
+      <option>Lazer</option>
+      <option>Saúde</option>
+      <option>Outros</option>
+    </select>
+    <div class="parcela-group">
+      <input type="number" id="qtd-parcelas" placeholder="Nº" min="1" step="1" value="1" oninput="calcularTotal()" />
+      <span class="parcela-sep">x</span>
+      <input type="number" id="valor-parcela" placeholder="Valor parcela" min="0" step="0.01" oninput="calcularTotal()" />
+      <span class="total-preview" id="total-preview"></span>
+    </div>
+    <button class="btn-add" onclick="adicionarGasto()">
+      <i class="ti ti-plus"></i> Adicionar
+    </button>
+  </div>
+
+  <div class="section-title-row">
+    <div class="section-title">Gastos registrados</div>
+    <button class="btn-novo-mes" onclick="zerarTodos()" title="Zerar todos os pagamentos para o novo mês">
+      <i class="ti ti-calendar-plus"></i> Novo mês
+    </button>
+  </div>
+  <div class="lista-gastos" id="lista-gastos"></div>
+
+  <div class="chart-wrap">
+    <div class="chart-label">Distribuição por categoria</div>
+    <canvas id="grafico" height="120"></canvas>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

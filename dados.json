@@ -1,0 +1,38 @@
+{
+  "orcamento": 1400,
+  "gastos": [
+    {
+      "id": 1781390001537,
+      "nome": "Internet",
+      "valor": 100,
+      "pago": 0,
+      "cat": "Contas",
+      "parcela": 0.01,
+      "qtdParcelas": 1
+    },
+    {
+      "id": 1781390101469,
+      "nome": "Luz",
+      "valor": 100,
+      "pago": 100,
+      "cat": "Contas",
+      "parcela": 0,
+      "qtdParcelas": 1
+    },
+    {
+      "id": 1781390197277,
+      "nome": "Hostzera",
+      "valor": 150,
+      "pago": 0,
+      "cat": "Outros"
+    },
+    {
+      "id": 1781390232679,
+      "nome": "Dentista",
+      "valor": 220,
+      "pago": 220,
+      "cat": "Saúde",
+      "qtdParcelas": 5
+    }
+  ]
+}
