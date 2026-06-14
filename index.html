@@ -87,12 +87,19 @@
 
 <!-- Update Box -->
 <div id="update-box">
+  <div class="update-glow"></div>
+
   <div class="update-header">
-    <div class="update-icon"><i class="ti ti-download"></i></div>
+    <div class="update-icon" id="update-icon">
+      <i class="ti ti-download"></i>
+    </div>
     <div class="update-titles">
       <div class="update-title" id="update-title">Atualização disponível</div>
       <div class="update-subtitle" id="update-subtitle">Preparando download...</div>
     </div>
+    <button class="update-close" id="update-close" onclick="document.getElementById('update-box').classList.remove('visible')" title="Fechar">
+      <i class="ti ti-x"></i>
+    </button>
   </div>
 
   <div class="update-progress-wrap" id="update-progress-wrap">
@@ -101,7 +108,10 @@
     </div>
     <div class="update-pct-row">
       <span class="update-pct" id="update-pct">0%</span>
-      <span class="update-speed" id="update-speed"></span>
+      <div class="update-right-info">
+        <span class="update-transferred" id="update-transferred"></span>
+        <span class="update-speed" id="update-speed"></span>
+      </div>
     </div>
   </div>
 

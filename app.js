@@ -79,7 +79,6 @@ function salvarOrcamento() {
   renderizar();
 }
 
-// Calcula o total automaticamente quando usuário digita parcelas no form
 function calcularTotal() {
   const qtd = parseInt(document.getElementById('qtd-parcelas').value) || 0;
   const val = parseFloat(document.getElementById('valor-parcela').value) || 0;
@@ -112,9 +111,9 @@ function renderizar() {
   } else {
     lista.innerHTML = gastos.map((g, i) => {
       const pago        = g.pago || 0;
-      const qtdTotal    = g.qtdParcelas || 1;         // total de parcelas
-      const valParcela  = g.valorParcela || g.valor;  // valor de cada parcela
-      const total       = qtdTotal * valParcela;       // valor total real
+      const qtdTotal    = g.qtdParcelas || 1;
+      const valParcela  = g.valorParcela || g.valor;
+      const total       = qtdTotal * valParcela;
       const parcelaPaga = valParcela > 0 ? Math.floor(pago / valParcela) : 0;
       const falta       = Math.max(0, total - pago);
       const parcelasRestantes = qtdTotal - parcelaPaga;
@@ -126,12 +125,10 @@ function renderizar() {
         `<option value="${c}" ${c === g.cat ? 'selected' : ''}>${c}</option>`
       ).join('');
 
-      // Label de parcelas: "2 / 5x de R$ 250"
       const labelParcela = qtdTotal > 1
         ? `<span class="item-parcela-badge" style="color:${cor}">${parcelaPaga}/${qtdTotal}x de ${fmt(valParcela)}</span>`
         : '';
 
-      // Botão pagar próxima parcela
       const btnParcela = !quitado
         ? `<button class="btn-parcela" onclick="pagarParcela(${i})">
              <i class="ti ti-cash"></i> Pagar parcela ${parcelaPaga + 1}/${qtdTotal}
@@ -228,7 +225,7 @@ function adicionarGasto() {
   gastos.push({
     id: Date.now(),
     nome,
-    valor: valParcela,           // mantém compat: valor = valor da parcela
+    valor: valParcela,
     qtdParcelas: qtd,
     valorParcela: valParcela,
     pago: 0,
@@ -242,7 +239,6 @@ function adicionarGasto() {
   salvar(); renderizar();
 }
 
-// Paga a próxima parcela
 function pagarParcela(i) {
   const g = gastos[i];
   const valParcela = g.valorParcela || g.valor;
@@ -289,6 +285,10 @@ function fmtBytes(bytes) {
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB/s';
 }
 
+function fmtMB(bytes) {
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
 function showUpdateBox() {
   document.getElementById('update-box').classList.add('visible');
 }
@@ -300,26 +300,31 @@ function instalarUpdate() {
 if (window.updater) {
   window.updater.onUpdateAvailable((data) => {
     document.getElementById('update-title').textContent = `Nova versão ${data.version}`;
-    document.getElementById('update-subtitle').textContent = 'Baixando em background...';
+    document.getElementById('update-subtitle').textContent = 'Iniciando download...';
+    document.getElementById('update-icon').className = 'update-icon downloading';
     showUpdateBox();
   });
 
   window.updater.onUpdateProgress((data) => {
-    const bar   = document.getElementById('update-bar');
-    const pct   = document.getElementById('update-pct');
-    const speed = document.getElementById('update-speed');
+    const bar         = document.getElementById('update-bar');
+    const pct         = document.getElementById('update-pct');
+    const speed       = document.getElementById('update-speed');
+    const transferred = document.getElementById('update-transferred');
 
     showUpdateBox();
     bar.style.width = data.percent + '%';
     pct.textContent = data.percent + '%';
     speed.textContent = fmtBytes(data.bytesPerSecond);
+    transferred.textContent = fmtMB(data.transferred) + ' / ' + fmtMB(data.total);
     document.getElementById('update-subtitle').textContent = 'Baixando atualização...';
+    document.getElementById('update-icon').className = 'update-icon downloading';
   });
 
   window.updater.onUpdateDownloaded((data) => {
     const bar     = document.getElementById('update-bar');
     const pct     = document.getElementById('update-pct');
     const speed   = document.getElementById('update-speed');
+    const transferred = document.getElementById('update-transferred');
     const restart = document.getElementById('btn-restart');
     const wrap    = document.getElementById('update-progress-wrap');
 
@@ -327,13 +332,16 @@ if (window.updater) {
     bar.classList.add('done');
     pct.textContent = '100%';
     speed.textContent = '';
+    transferred.textContent = '';
     document.getElementById('update-title').textContent = `Versão ${data.version} pronta`;
     document.getElementById('update-subtitle').textContent = 'Download concluído ✓';
+    document.getElementById('update-icon').className = 'update-icon done';
+    document.getElementById('update-icon').innerHTML = '<i class="ti ti-check"></i>';
 
     setTimeout(() => {
       wrap.style.display = 'none';
       restart.classList.add('visible');
-    }, 600);
+    }, 800);
 
     showUpdateBox();
   });
@@ -343,6 +351,8 @@ if (window.updater) {
     errEl.textContent = 'Erro: ' + data.message;
     errEl.style.display = 'block';
     document.getElementById('update-progress-wrap').style.display = 'none';
+    document.getElementById('update-icon').className = 'update-icon error';
+    document.getElementById('update-icon').innerHTML = '<i class="ti ti-alert-triangle"></i>';
     showUpdateBox();
   });
 }

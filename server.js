@@ -4,6 +4,9 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
+// Versão atual do app — atualize a cada release que quiser limpar os dados
+const APP_VERSION = '1.0.8';
+
 // Em produção Electron, salva dados na pasta do usuário (fora do .asar)
 let userDataPath;
 try {
@@ -15,9 +18,20 @@ try {
 
 const DATA_FILE = path.join(userDataPath, 'dados.json');
 
-// Primeira abertura: sempre inicia vazio, ignora qualquer seed do bundle
 if (!fs.existsSync(DATA_FILE)) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify({ orcamento: 1400, gastos: [] }, null, 2));
+  // Primeira abertura: cria vazio com a versão atual
+  fs.writeFileSync(DATA_FILE, JSON.stringify({ appVersion: APP_VERSION, orcamento: 1400, gastos: [] }, null, 2));
+} else {
+  // Já existe: verifica se é uma versão nova
+  try {
+    const userData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    if (userData.appVersion !== APP_VERSION) {
+      // Nova versão: apaga tudo, começa do zero
+      fs.writeFileSync(DATA_FILE, JSON.stringify({ appVersion: APP_VERSION, orcamento: 1400, gastos: [] }, null, 2));
+    }
+  } catch (e) {
+    console.error('Erro ao verificar versão dos dados:', e);
+  }
 }
 
 const MIME = {
@@ -48,6 +62,8 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       try {
         const parsed = JSON.parse(body);
+        // Preserva a versão ao salvar
+        parsed.appVersion = APP_VERSION;
         fs.writeFileSync(DATA_FILE, JSON.stringify(parsed, null, 2));
         res.writeHead(200, { ...headers, 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: true }));
