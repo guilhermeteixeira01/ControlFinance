@@ -103,8 +103,10 @@ function renderizar() {
   document.getElementById('total-global').textContent = fmt(totalGlobal);
   document.getElementById('saldo').textContent        = fmt(saldo);
 
-  const sc = document.getElementById('saldo-card');
-  if (saldo < 0) sc.classList.add('negativo'); else sc.classList.remove('negativo');
+  const sv = document.getElementById('saldo');
+  if (sv) {
+    if (saldo < 0) sv.classList.add('neg'); else sv.classList.remove('neg');
+  }
 
   const lista = document.getElementById('lista-gastos');
   if (gastos.length === 0) {
@@ -216,6 +218,21 @@ function renderizar() {
     const h = Math.max(minH, cats.length * barH);
     document.querySelector('.chart-canvas-wrap').style.height = h + 'px';
     chart.update();
+  }
+
+  // Resumo por categoria
+  const catSummary = document.getElementById('cat-summary');
+  if (catSummary) {
+    if (cats.length === 0) {
+      catSummary.innerHTML = '';
+    } else {
+      catSummary.innerHTML = cats.map(c => `
+        <div class="cat-row">
+          <div class="cat-row-dot" style="background:${CAT_COLORS[c] || '#888'};box-shadow:0 0 5px ${CAT_COLORS[c] || '#888'}55"></div>
+          <div class="cat-row-name">${c}</div>
+          <div class="cat-row-val">${fmt(porCat[c])}</div>
+        </div>`).join('');
+    }
   }
 }
 

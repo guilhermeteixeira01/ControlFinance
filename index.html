@@ -8,104 +8,183 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
+<div class="app-shell">
 
-  <h1>Controle Financeiro</h1>
-  <h2>By: <a href="https://github.com/guilhermeteixeira01" target="_blank">Guilherme Teixeira</a></h2>
-  <p class="subtitle">Gerencie seus gastos e acompanhe seu saldo em tempo real</p>
-
-  <div class="orcamento-row">
-    <label>Orçamento mensal (R$)</label>
-    <input type="number" id="orc-input" value="1400" min="0" step="10" />
-    <button class="btn-save-orc" onclick="salvarOrcamento()">Salvar</button>
-  </div>
-
-  <div class="cards">
-    <div class="card orcamento">
-      <div class="card-label">Orçamento</div>
-      <div class="card-value" id="orc-display">R$ 1.400,00</div>
-      <div class="card-accent"></div>
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><img src="icon.png"></i></div>
+      <span class="logo-text">FinanceApp</span>
     </div>
-    <div class="card gastos-mes">
-      <div class="card-label">Gasto este mês</div>
-      <div class="card-value" id="total-gasto">R$ 0,00</div>
-      <div class="card-accent"></div>
-    </div>
-    <div class="card gastos-global">
-      <div class="card-label">Total global</div>
-      <div class="card-value" id="total-global">R$ 0,00</div>
-      <div class="card-accent"></div>
-    </div>
-    <div class="card saldo" id="saldo-card">
-      <div class="card-label">Saldo</div>
-      <div class="card-value" id="saldo">R$ 1.400,00</div>
-      <div class="card-accent"></div>
-    </div>
-  </div>
 
-  <div class="section-title">Adicionar gasto</div>
-  <div class="form-gasto">
-    <input type="text" id="nome-gasto" placeholder="Descrição" />
-    <select id="cat-gasto">
-      <option>Alimentação</option>
-      <option>Transporte</option>
-      <option>Moradia</option>
-      <option>Contas</option>
-      <option>Lazer</option>
-      <option>Saúde</option>
-      <option>Outros</option>
-    </select>
-    <div class="parcela-group">
-      <input type="number" id="qtd-parcelas" placeholder="Nº" min="1" step="1" value="1" oninput="calcularTotal()" />
-      <span class="parcela-sep">x</span>
-      <input type="number" id="valor-parcela" placeholder="Valor parcela" min="0" step="0.01" oninput="calcularTotal()" />
-      <span class="total-preview" id="total-preview"></span>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="#">
+        <i class="ti ti-layout-dashboard"></i>
+        <span>Visão Geral</span>
+      </a>
+      <!-- <a class="nav-item" href="#">
+        <i class="ti ti-arrows-exchange"></i>
+        <span>Transações</span>
+      </a>
+      <a class="nav-item" href="#">
+        <i class="ti ti-chart-pie"></i>
+        <span>Categorias</span>
+      </a>
+      <a class="nav-item" href="#">
+        <i class="ti ti-report-analytics"></i>
+        <span>Relatórios</span>
+      </a>
+      <a class="nav-item" href="#">
+        <i class="ti ti-calendar-event"></i>
+        <span>Orçamento</span>
+      </a>
+      <a class="nav-item" href="#">
+        <i class="ti ti-settings"></i>
+        <span>Configurações</span>
+      </a> -->
+    </nav>
+
+    <!-- <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">GT</div>
+        <div class="user-info">
+          <div class="user-name">Guilherme</div>
+          <div class="user-role">Pessoal</div>
+        </div>
+      </div>
+    </div> -->
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="main-content">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title">Visão Geral</h1>
+        <p class="page-sub">Gerencie seus gastos e acompanhe seu saldo</p>
+      </div>
+      <div class="topbar-right">
+        <div class="orcamento-row">
+          <label>Orçamento</label>
+          <input type="number" id="orc-input" value="1400" min="0" step="10" />
+          <button class="btn-save-orc" onclick="salvarOrcamento()">
+            <i class="ti ti-check"></i> Salvar
+          </button>
+        </div>
+        <button class="btn-add-top" onclick="document.getElementById('form-panel').classList.toggle('open')">
+          <i class="ti ti-plus"></i> Adicionar
+        </button>
+      </div>
+    </header>
+
+    <!-- Cards de resumo -->
+    <div class="cards">
+      <div class="card card-saldo">
+        <div class="card-icon-wrap teal"><i class="ti ti-wallet"></i></div>
+        <div class="card-body">
+          <div class="card-label">Saldo disponível</div>
+          <div class="card-value" id="saldo">R$ 1.400,00</div>
+          <div class="card-sub" id="saldo-sub">do orçamento de <span id="orc-display">R$ 1.400,00</span></div>
+        </div>
+      </div>
+      <div class="card card-gasto">
+        <div class="card-icon-wrap coral"><i class="ti ti-trending-up"></i></div>
+        <div class="card-body">
+          <div class="card-label">Gasto este mês</div>
+          <div class="card-value red" id="total-gasto">R$ 0,00</div>
+          <div class="card-sub">pagamentos realizados</div>
+        </div>
+      </div>
+      <div class="card card-global">
+        <div class="card-icon-wrap purple"><i class="ti ti-stack-2"></i></div>
+        <div class="card-body">
+          <div class="card-label">Total comprometido</div>
+          <div class="card-value purple" id="total-global">R$ 0,00</div>
+          <div class="card-sub">parcelas incluídas</div>
+        </div>
+      </div>
     </div>
-    <button class="btn-add" onclick="adicionarGasto()">
-      <i class="ti ti-plus"></i> Adicionar
-    </button>
-  </div>
 
-  <div class="section-title-row">
-    <div class="section-title">Gastos registrados</div>
-    <button class="btn-novo-mes" onclick="zerarTodos()" title="Zerar todos os pagamentos para o novo mês">
-      <i class="ti ti-calendar-plus"></i> Novo mês
-    </button>
-  </div>
-  <div class="lista-gastos" id="lista-gastos"></div>
+    <!-- Form de adição (slide panel) -->
+    <div class="form-panel" id="form-panel">
+      <div class="form-panel-inner">
+        <div class="form-panel-title">
+          <i class="ti ti-receipt-2"></i> Novo gasto
+        </div>
+        <div class="form-gasto">
+          <input type="text" id="nome-gasto" placeholder="Descrição do gasto" />
+          <select id="cat-gasto">
+            <option>Alimentação</option>
+            <option>Transporte</option>
+            <option>Moradia</option>
+            <option>Contas</option>
+            <option>Lazer</option>
+            <option>Saúde</option>
+            <option>Outros</option>
+          </select>
+          <div class="parcela-group">
+            <input type="number" id="qtd-parcelas" placeholder="Nº" min="1" step="1" value="1" oninput="calcularTotal()" />
+            <span class="parcela-sep">x</span>
+            <input type="number" id="valor-parcela" placeholder="Valor por parcela" min="0" step="0.01" oninput="calcularTotal()" />
+            <span class="total-preview" id="total-preview"></span>
+          </div>
+          <button class="btn-add" onclick="adicionarGasto()">
+            <i class="ti ti-plus"></i> Adicionar
+          </button>
+        </div>
+      </div>
+    </div>
 
-  <div class="chart-wrap">
-    <div class="chart-label">Distribuição por categoria</div>
-    <div class="chart-canvas-wrap"><canvas id="grafico"></canvas></div>
-  </div>
+    <!-- Conteúdo em duas colunas -->
+    <div class="content-grid">
 
+      <!-- Coluna esquerda: Lista de gastos -->
+      <div class="col-left">
+        <div class="section-header">
+          <div class="section-title">Gastos registrados</div>
+          <button class="btn-novo-mes" onclick="zerarTodos()">
+            <i class="ti ti-calendar-plus"></i> Novo mês
+          </button>
+        </div>
+        <div class="lista-gastos" id="lista-gastos"></div>
+      </div>
+
+      <!-- Coluna direita: Gráfico + resumo por categoria -->
+      <div class="col-right">
+        <div class="section-title">Distribuição por categoria</div>
+        <div class="chart-wrap">
+          <div class="chart-canvas-wrap"><canvas id="grafico"></canvas></div>
+        </div>
+
+        <div class="section-title" style="margin-top:1.5rem">Resumo por categoria</div>
+        <div class="cat-summary" id="cat-summary"></div>
+      </div>
+
+    </div>
+
+  </main>
 </div>
 
 <!-- Update Box -->
 <div id="update-box">
   <div class="update-glow"></div>
-
   <div class="update-header">
-    <div class="update-icon" id="update-icon">
-      <i class="ti ti-download"></i>
-    </div>
+    <div class="update-icon" id="update-icon"><i class="ti ti-download"></i></div>
     <div class="update-titles">
       <div class="update-title" id="update-title">Atualização disponível</div>
       <div class="update-subtitle" id="update-subtitle">Preparando download...</div>
     </div>
-    <button class="update-close" id="update-close" onclick="document.getElementById('update-box').classList.remove('visible')" title="Fechar">
+    <button class="update-close" onclick="document.getElementById('update-box').classList.remove('visible')">
       <i class="ti ti-x"></i>
     </button>
   </div>
-
   <div class="update-progress-wrap" id="update-progress-wrap">
-    <div class="update-track">
-      <div class="update-bar" id="update-bar"></div>
-    </div>
+    <div class="update-track"><div class="update-bar" id="update-bar"></div></div>
     <div class="update-pct-row">
       <span class="update-pct" id="update-pct">0%</span>
       <div class="update-right-info">
@@ -114,9 +193,7 @@
       </div>
     </div>
   </div>
-
   <div class="update-error-msg" id="update-error-msg"></div>
-
   <button class="btn-restart" id="btn-restart" onclick="instalarUpdate()">
     <i class="ti ti-refresh"></i> Reiniciar e instalar
   </button>
