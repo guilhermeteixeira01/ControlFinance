@@ -24,6 +24,7 @@
     "files": [
       "main.js",
       "server.js",
+      "preload.js",
       "app.js",
       "index.html",
       "index.css",
