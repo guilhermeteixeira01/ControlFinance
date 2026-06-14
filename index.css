@@ -28,7 +28,7 @@ body {
   background: var(--bg);
   color: #fff;
   min-height: 100vh;
-  padding: 2rem 1rem;
+  padding: clamp(0.75rem, 2vw, 2rem) clamp(0.5rem, 2vw, 1.5rem);
   overflow-x: hidden;
 }
 
@@ -60,13 +60,13 @@ body::after {
 }
 
 .container {
-  max-width: 860px;
+  width: min(1400px, 100%);
   margin: auto;
   background: var(--glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 2rem;
-  border-radius: 20px;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  border-radius: clamp(12px, 2vw, 20px);
   border: 1px solid var(--glass-border);
   box-shadow: 0 0 60px rgba(0,212,255,0.04), 0 2px 40px rgba(0,0,0,0.4);
   position: relative;
@@ -75,7 +75,7 @@ body::after {
 
 h1 {
   font-family: 'Orbitron', sans-serif;
-  font-size: 22px;
+  font-size: clamp(16px, 2.5vw, 24px);
   font-weight: 700;
   letter-spacing: 1px;
   background: linear-gradient(135deg, #fff 30%, #00d4ff);
@@ -160,8 +160,8 @@ h2 {
 /* Cards de resumo */
 .cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(8px, 1.5vw, 14px);
   margin-bottom: 1.75rem;
 }
 
@@ -446,15 +446,28 @@ h2 {
 ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 2px; }
 
 /* Responsivo */
-@media (max-width: 700px) {
-  .cards { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 900px) {
+  .item-nums { min-width: 120px; }
+}
+@media (max-width: 600px) {
+  .form-gasto { flex-direction: column; }
+  .form-gasto input[type="number"],
+  .form-gasto input[type="text"] { max-width: 100%; width: 100%; }
+  .parcela-group { min-width: 100%; }
+  .btn-add { width: 100%; justify-content: center; }
+  .orcamento-row { flex-wrap: wrap; }
+  .orcamento-row input { flex: 1; width: auto; }
 }
 @media (max-width: 420px) {
-  .cards { grid-template-columns: 1fr; }
-  .form-gasto { flex-direction: column; }
-  .form-gasto input[type="number"] { max-width: 100%; }
   .item-cat { display: none; }
-  h1 { font-size: 18px; }
+  .item-nums { min-width: 100%; }
+  .card-value { font-size: 16px; }
+  #update-box {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    bottom: 16px;
+  }
 }
 
 /* ── Item expandido com progresso ── */
@@ -587,7 +600,6 @@ h2 {
 }
 
 @media (max-width: 600px) {
-  .item-nums { min-width: 100%; }
   .item-row1 { flex-wrap: wrap; }
 }
 /* ── Parcelas ── */
@@ -844,7 +856,7 @@ h2 {
   position: fixed;
   bottom: 28px;
   right: 28px;
-  width: 320px;
+  width: min(320px, calc(100vw - 32px));
   background: rgba(7, 7, 15, 0.96);
   border: 1px solid rgba(0, 212, 255, 0.2);
   border-radius: 18px;
@@ -1083,4 +1095,14 @@ h2 {
   border: 1px solid rgba(255,80,80,0.15);
   border-radius: 8px;
   line-height: 1.4;
+}
+/* Gráfico com altura dinâmica */
+.chart-canvas-wrap {
+  position: relative;
+  height: 80px;
+  transition: height 0.3s ease;
+}
+
+.chart-canvas-wrap canvas {
+  display: block;
 }

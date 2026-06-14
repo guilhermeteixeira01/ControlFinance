@@ -54,6 +54,7 @@ function initChart() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       indexAxis: 'y',
       plugins: {
         legend: { display: false },
@@ -210,6 +211,10 @@ function renderizar() {
     chart.data.labels = cats;
     chart.data.datasets[0].data = cats.map(c => porCat[c]);
     chart.data.datasets[0].backgroundColor = cats.map(c => CAT_COLORS[c] || '#888');
+    const barH = 52;
+    const minH = 80;
+    const h = Math.max(minH, cats.length * barH);
+    document.querySelector('.chart-canvas-wrap').style.height = h + 'px';
     chart.update();
   }
 }
