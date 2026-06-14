@@ -15,18 +15,9 @@ try {
 
 const DATA_FILE = path.join(userDataPath, 'dados.json');
 
+// Primeira abertura: sempre inicia vazio, ignora qualquer seed do bundle
 if (!fs.existsSync(DATA_FILE)) {
-  const seed = path.join(__dirname, 'dados.json');
-  let initial;
-  if (fs.existsSync(seed)) {
-    const seedData = JSON.parse(fs.readFileSync(seed, 'utf8'));
-    // Zera todos os pagamentos na primeira cópia
-    if (seedData.gastos) seedData.gastos.forEach(g => g.pago = 0);
-    initial = JSON.stringify(seedData, null, 2);
-  } else {
-    initial = JSON.stringify({ orcamento: 1400, gastos: [] }, null, 2);
-  }
-  fs.writeFileSync(DATA_FILE, initial);
+  fs.writeFileSync(DATA_FILE, JSON.stringify({ orcamento: 1400, gastos: [] }, null, 2));
 }
 
 const MIME = {
