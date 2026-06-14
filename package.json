@@ -1,6 +1,6 @@
 {
   "name": "controle-financeiro",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "App de controle financeiro pessoal",
   "author": "guilhermeteixeira01",
   "main": "main.js",

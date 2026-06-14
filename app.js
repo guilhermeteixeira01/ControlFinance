@@ -94,12 +94,14 @@ function calcularTotal() {
 }
 
 function renderizar() {
-  const totalPago = gastos.reduce((s, g) => s + (g.pago || 0), 0);
+  const totalPago   = gastos.reduce((s, g) => s + (g.pago || 0), 0);
+  const totalGlobal = gastos.reduce((s, g) => s + (g.qtdParcelas || 1) * (g.valorParcela || g.valor || 0), 0);
   const saldo = orcamento - totalPago;
 
-  document.getElementById('orc-display').textContent = fmt(orcamento);
-  document.getElementById('total-gasto').textContent = fmt(totalPago);
-  document.getElementById('saldo').textContent = fmt(saldo);
+  document.getElementById('orc-display').textContent  = fmt(orcamento);
+  document.getElementById('total-gasto').textContent  = fmt(totalPago);
+  document.getElementById('total-global').textContent = fmt(totalGlobal);
+  document.getElementById('saldo').textContent        = fmt(saldo);
 
   const sc = document.getElementById('saldo-card');
   if (saldo < 0) sc.classList.add('negativo'); else sc.classList.remove('negativo');

@@ -159,7 +159,7 @@ h2 {
 /* Cards de resumo */
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin-bottom: 1.75rem;
 }
@@ -201,9 +201,11 @@ h2 {
   height: 2px;
 }
 
-.card.orcamento .card-accent { background: linear-gradient(90deg, #0055ff, #00d4ff); }
-.card.gastos .card-accent { background: linear-gradient(90deg, #ff4400, #ff8800); }
-.card.saldo .card-accent { background: linear-gradient(90deg, #00ff88, #00d4ff); }
+.card.orcamento .card-accent     { background: linear-gradient(90deg, #0055ff, #00d4ff); }
+.card.gastos-mes .card-accent    { background: linear-gradient(90deg, #ff4400, #ff8800); }
+.card.gastos-global .card-accent { background: linear-gradient(90deg, #cc00ff, #ff4488); }
+.card.gastos-global .card-value  { color: #d966ff; }
+.card.saldo .card-accent         { background: linear-gradient(90deg, #00ff88, #00d4ff); }
 .card.saldo .card-value { color: #00e676; }
 .card.saldo.negativo .card-value { color: #ff4444; }
 .card.saldo.negativo .card-accent { background: linear-gradient(90deg, #ff2200, #ff6600); }
@@ -443,7 +445,10 @@ h2 {
 ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 2px; }
 
 /* Responsivo */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
   .cards { grid-template-columns: 1fr; }
   .form-gasto { flex-direction: column; }
   .form-gasto input[type="number"] { max-width: 100%; }
