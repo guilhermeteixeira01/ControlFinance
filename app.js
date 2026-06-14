@@ -181,10 +181,6 @@ function renderizar() {
             <span class="item-total-calc">${fmt(total)}</span>
           </div>
           <div class="item-num-row">
-            <span class="item-num-label">Pago</span>
-            <span class="item-pago-display">${fmt(pago)}</span>
-          </div>
-          <div class="item-num-row">
             <span class="item-num-label">Falta</span>
             <span class="item-falta ${quitado ? 'quitado' : ''}">${quitado ? '✓ Pago' : fmt(falta)}</span>
           </div>
@@ -201,6 +197,11 @@ function renderizar() {
       </div>`;
     }).join('');
   }
+
+  {/* <div class="item-num-row">
+            <span class="item-num-label">Pago</span>
+            <span class="item-pago-display">${fmt(pago)}</span>
+          </div> */}
 
   const porCat = {};
   gastos.forEach(g => {

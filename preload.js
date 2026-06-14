@@ -7,3 +7,9 @@ contextBridge.exposeInMainWorld('updater', {
   onUpdateError:      (cb) => ipcRenderer.on('update-error',      (_, data) => cb(data)),
   installUpdate: () => ipcRenderer.send('install-update'),
 });
+
+contextBridge.exposeInMainWorld('windowControls', {
+  minimize: () => ipcRenderer.send('window-minimize'),
+  maximize: () => ipcRenderer.send('window-maximize'),
+  close: () => ipcRenderer.send('window-close')
+});

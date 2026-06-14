@@ -48,6 +48,22 @@ ipcMain.on('install-update', () => {
   autoUpdater.quitAndInstall();
 });
 
+ipcMain.on('window-minimize', () => {
+  mainWindow.minimize();
+});
+
+ipcMain.on('window-maximize', () => {
+  if (mainWindow.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow.maximize();
+  }
+});
+
+ipcMain.on('window-close', () => {
+  mainWindow.close();
+});
+
 function startServer() {
   process.env.PORT = serverPort;
   require('./server.js');
@@ -68,13 +84,16 @@ function createWindow() {
     height: 720,
     minWidth: 600,
     minHeight: 500,
-    title: 'Controle Financeiro',
+  
+    frame: false,
+  
     backgroundColor: '#07070f',
+  
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true
     },
+
     autoHideMenuBar: true,
     icon: path.join(__dirname, 'icon.png'),
   });
@@ -86,8 +105,7 @@ function createWindow() {
     return { action: 'deny' };
   });
 
-  // Inicia verificação de updates depois da janela abrir
-  setTimeout(() => setupUpdater(), 3000);
+  setTimeout(() => setupUpdater(), 1000);
 }
 
 app.whenReady().then(() => {

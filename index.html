@@ -12,8 +12,41 @@
 </head>
 <body>
 
-<div class="app-shell">
+  <div class="titlebar">
+    <div class="title">
+      <img src="icon.png">Controle Financeiro
+    </div>
+  
+    <div class="window-buttons">
+      <button onclick="window.windowControls.minimize()" title="Minimizar">
+        <svg viewBox="0 0 10 1">
+          <rect width="10" height="1"/>
+        </svg>
+      </button>
+    
+      <button onclick="window.windowControls.maximize()" title="Maximizar">
+        <svg viewBox="0 0 10 10">
+          <rect x="1" y="1" width="8" height="8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"/>
+        </svg>
+      </button>
+    
+      <button class="close"
+              onclick="window.windowControls.close()"
+              title="Fechar">
+        <svg viewBox="0 0 10 10">
+          <path d="M1 1L9 9M9 1L1 9"
+                stroke="currentColor"
+                stroke-width="1.2"
+                fill="none"/>
+        </svg>
+      </button>
+    </div>
+  </div>
 
+<div class="app-shell">
   <!-- ── Sidebar ── -->
   <aside class="sidebar">
     <div class="sidebar-logo">
@@ -166,7 +199,9 @@
       </div>
 
     </div>
-
+    <div>
+      <h1 class="Footer-Dev">Desenvolvido por <a href="https://github.com/guilhermeteixeira01" target="_blank">Guilherme Teixeira</a></h1>
+    </div>
   </main>
 </div>
 
