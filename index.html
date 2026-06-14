@@ -80,6 +80,33 @@
 
 </div>
 
+<!-- Update Box -->
+<div id="update-box">
+  <div class="update-header">
+    <div class="update-icon"><i class="ti ti-download"></i></div>
+    <div class="update-titles">
+      <div class="update-title" id="update-title">Atualização disponível</div>
+      <div class="update-subtitle" id="update-subtitle">Preparando download...</div>
+    </div>
+  </div>
+
+  <div class="update-progress-wrap" id="update-progress-wrap">
+    <div class="update-track">
+      <div class="update-bar" id="update-bar"></div>
+    </div>
+    <div class="update-pct-row">
+      <span class="update-pct" id="update-pct">0%</span>
+      <span class="update-speed" id="update-speed"></span>
+    </div>
+  </div>
+
+  <div class="update-error-msg" id="update-error-msg"></div>
+
+  <button class="btn-restart" id="btn-restart" onclick="instalarUpdate()">
+    <i class="ti ti-refresh"></i> Reiniciar e instalar
+  </button>
+</div>
+
 <script src="app.js"></script>
 </body>
 </html>

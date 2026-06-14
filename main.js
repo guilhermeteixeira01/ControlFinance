@@ -21,31 +21,32 @@ function setupUpdater() {
   autoUpdater.checkForUpdatesAndNotify();
 
   autoUpdater.on('update-available', (info) => {
-    dialog.showMessageBox(mainWindow, {
-      type: 'info',
-      title: 'Atualização disponível',
-      message: `Versão ${info.version} disponível! Baixando em background...`,
-      buttons: ['OK']
+    mainWindow.webContents.send('update-available', { version: info.version });
+  });
+
+  autoUpdater.on('download-progress', (progress) => {
+    mainWindow.webContents.send('update-progress', {
+      percent: Math.round(progress.percent),
+      transferred: progress.transferred,
+      total: progress.total,
+      bytesPerSecond: progress.bytesPerSecond
     });
   });
 
   autoUpdater.on('update-downloaded', (info) => {
-    dialog.showMessageBox(mainWindow, {
-      type: 'info',
-      title: 'Atualização pronta',
-      message: `Versão ${info.version} baixada. O app será atualizado ao fechar.`,
-      buttons: ['Reiniciar agora', 'Mais tarde']
-    }).then(result => {
-      if (result.response === 0) {
-        autoUpdater.quitAndInstall();
-      }
-    });
+    mainWindow.webContents.send('update-downloaded', { version: info.version });
   });
 
   autoUpdater.on('error', (err) => {
     console.error('Erro no auto-updater:', err);
+    mainWindow.webContents.send('update-error', { message: err.message });
   });
 }
+
+// IPC: renderer pede para reiniciar e instalar
+ipcMain.on('install-update', () => {
+  autoUpdater.quitAndInstall();
+});
 
 function startServer() {
   process.env.PORT = serverPort;
@@ -72,6 +73,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
     autoHideMenuBar: true,
     icon: path.join(__dirname, 'icon.png'),

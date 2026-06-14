@@ -280,3 +280,67 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('nome-gasto').addEventListener('keydown',   e => { if (e.key === 'Enter') document.getElementById('qtd-parcelas').focus(); });
   document.getElementById('qtd-parcelas').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('valor-parcela').focus(); });
 });
+
+// ── Update Box ──────────────────────────────────────────────
+function fmtBytes(bytes) {
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB/s';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB/s';
+}
+
+function showUpdateBox() {
+  document.getElementById('update-box').classList.add('visible');
+}
+
+function instalarUpdate() {
+  if (window.updater) window.updater.installUpdate();
+}
+
+if (window.updater) {
+  window.updater.onUpdateAvailable((data) => {
+    document.getElementById('update-title').textContent = `Nova versão ${data.version}`;
+    document.getElementById('update-subtitle').textContent = 'Baixando em background...';
+    showUpdateBox();
+  });
+
+  window.updater.onUpdateProgress((data) => {
+    const bar   = document.getElementById('update-bar');
+    const pct   = document.getElementById('update-pct');
+    const speed = document.getElementById('update-speed');
+
+    showUpdateBox();
+    bar.style.width = data.percent + '%';
+    pct.textContent = data.percent + '%';
+    speed.textContent = fmtBytes(data.bytesPerSecond);
+    document.getElementById('update-subtitle').textContent = 'Baixando atualização...';
+  });
+
+  window.updater.onUpdateDownloaded((data) => {
+    const bar     = document.getElementById('update-bar');
+    const pct     = document.getElementById('update-pct');
+    const speed   = document.getElementById('update-speed');
+    const restart = document.getElementById('btn-restart');
+    const wrap    = document.getElementById('update-progress-wrap');
+
+    bar.style.width = '100%';
+    bar.classList.add('done');
+    pct.textContent = '100%';
+    speed.textContent = '';
+    document.getElementById('update-title').textContent = `Versão ${data.version} pronta`;
+    document.getElementById('update-subtitle').textContent = 'Download concluído ✓';
+
+    setTimeout(() => {
+      wrap.style.display = 'none';
+      restart.classList.add('visible');
+    }, 600);
+
+    showUpdateBox();
+  });
+
+  window.updater.onUpdateError((data) => {
+    const errEl = document.getElementById('update-error-msg');
+    errEl.textContent = 'Erro: ' + data.message;
+    errEl.style.display = 'block';
+    document.getElementById('update-progress-wrap').style.display = 'none';
+    showUpdateBox();
+  });
+}
