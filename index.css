@@ -893,20 +893,24 @@ body::before {
 
 .window-buttons {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 12px;
   height: 100%;
 
   -webkit-app-region: no-drag;
 }
 
 .window-buttons button {
-  width: 46px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
 
   border: none;
   outline: none;
 
   background: transparent;
-  color: #ffffff;
+  color: snow;
 
   display: flex;
   align-items: center;
@@ -918,11 +922,20 @@ body::before {
 }
 
 .window-buttons button:hover {
-  background: rgba(255,255,255,0.12);
+  color: black;
+  border-radius: 50px;
+}
+
+.window-buttons button.minimize:hover {
+  background-color: rgba(0, 255, 0, 0.7);
+}
+
+.window-buttons button.maximize:hover {
+  background-color: rgba(255,255,0,0.7);
 }
 
 .window-buttons button.close:hover {
-  background: #e81123;
+  background: rgba(255,00,0,0.7);
 }
 
 .window-buttons button svg {

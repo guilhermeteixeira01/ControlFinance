@@ -18,30 +18,31 @@
     </div>
   
     <div class="window-buttons">
-      <button onclick="window.windowControls.minimize()" title="Minimizar">
-        <svg viewBox="0 0 10 1">
-          <rect width="10" height="1"/>
+      <button class="minimize" onclick="window.windowControls.minimize()" title="Minimizar">
+        <svg viewBox="0 0 7 7">
+          <line x1="1" y1="3.5" x2="6" y2="3.5"
+                stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round"/>
         </svg>
       </button>
     
-      <button onclick="window.windowControls.maximize()" title="Maximizar">
-        <svg viewBox="0 0 10 10">
-          <rect x="1" y="1" width="8" height="8"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1"/>
+      <button class="maximize" onclick="window.windowControls.maximize()" title="Maximizar">
+        <svg viewBox="0 0 7 7">
+          <path d="M4.5 1H6v1.5M2.5 6H1V4.5M6 4.5V6H4.5M1 2.5V1h1.5"
+                stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"
+                fill="none"/>
         </svg>
       </button>
     
       <button class="close"
               onclick="window.windowControls.close()"
               title="Fechar">
-        <svg viewBox="0 0 10 10">
-          <path d="M1 1L9 9M9 1L1 9"
-                stroke="currentColor"
-                stroke-width="1.2"
-                fill="none"/>
-        </svg>
+              <svg viewBox="0 0 7 7">
+                <path d="M1 1l5 5M6 1L1 6"
+                      stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" fill="none"/>
+              </svg>
       </button>
     </div>
   </div>
